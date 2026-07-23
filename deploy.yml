@@ -1,4 +1,5 @@
-name: Deploy to Hostigator VPS
+name: Deploy to HostGator VPS
+
 on:
   push:
     branches:
@@ -7,5 +8,23 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            cd /opt/hello-world
+
+            git pull origin main
+
+            docker compose down
+
+            docker compose up -d --build
