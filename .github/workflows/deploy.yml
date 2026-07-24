@@ -21,7 +21,7 @@ jobs:
           script: |
             set -e
 
-            cd /opt/hello-word/mini_carteira_financeira
+            cd /opt/hello-world/mini_carteira_financeira
 
             echo "Diretorio:"
             pwd
