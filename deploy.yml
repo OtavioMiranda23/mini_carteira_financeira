@@ -21,38 +21,24 @@ jobs:
           script: |
             set -e
 
-            echo "===== INICIO ====="
-
             cd /opt/hello-word/mini_carteira_financeira
 
-            echo "===== DIRETORIO ====="
+            echo "Diretorio:"
             pwd
 
-            echo "===== COMMIT ATUAL ====="
-            git log -1 --oneline
+            echo "Arquivos antes do update:"
+            ls -la
 
-            echo "===== BRANCH ====="
-            git branch --show-current
-
-            echo "===== REMOTE ====="
-            git remote -v
-
-            echo "===== FETCH ====="
             git fetch origin master
-
-            echo "===== RESET PARA O GITHUB ====="
             git reset --hard origin/master
 
-            echo "===== NOVO COMMIT ====="
-            git log -1 --oneline
+            echo "Arquivos depois do update:"
+            ls -la
 
-            echo "===== DOCKER DOWN ====="
+            test -f Dockerfile
+            test -f docker-compose.yml
+
             docker compose down
-
-            echo "===== DOCKER BUILD E UP ====="
             docker compose up -d --build
 
-            echo "===== STATUS FINAL ====="
             docker compose ps
-
-            echo "===== DEPLOY FINALIZADO ====="
