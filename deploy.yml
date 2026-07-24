@@ -3,7 +3,7 @@ name: Deploy to HostGator VPS
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
