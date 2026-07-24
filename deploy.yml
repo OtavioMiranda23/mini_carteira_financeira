@@ -23,8 +23,15 @@ jobs:
           script: |
             cd /opt/hello-word/mini_carteira_financeira
 
+            echo "Commit antes do pull:"
+            git log -1 --oneline
+
             git pull origin master
 
-            docker compose down
+            echo "Commit depois do pull:"
+            git log -1 --oneline
 
+            docker compose down
             docker compose up -d --build
+
+            docker compose ps
