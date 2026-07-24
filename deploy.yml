@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            cd /opt/hello-word/mini_carteira_financeira
+            cd /opt/hello-world/mini_carteira_financeira
 
             echo "Commit antes do pull:"
             git log -1 --oneline
