@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -20,18 +17,42 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
+          script_stop: true
           script: |
-            cd /opt/hello-world/mini_carteira_financeira
+            set -e
 
-            echo "Commit antes do pull:"
+            echo "===== INICIO ====="
+
+            cd /opt/hello-word/mini_carteira_financeira
+
+            echo "===== DIRETORIO ====="
+            pwd
+
+            echo "===== COMMIT ATUAL ====="
             git log -1 --oneline
 
-            git pull origin master
+            echo "===== BRANCH ====="
+            git branch --show-current
 
-            echo "Commit depois do pull:"
+            echo "===== REMOTE ====="
+            git remote -v
+
+            echo "===== FETCH ====="
+            git fetch origin master
+
+            echo "===== RESET PARA O GITHUB ====="
+            git reset --hard origin/master
+
+            echo "===== NOVO COMMIT ====="
             git log -1 --oneline
 
+            echo "===== DOCKER DOWN ====="
             docker compose down
+
+            echo "===== DOCKER BUILD E UP ====="
             docker compose up -d --build
 
+            echo "===== STATUS FINAL ====="
             docker compose ps
+
+            echo "===== DEPLOY FINALIZADO ====="
